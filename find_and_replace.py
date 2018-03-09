@@ -5,115 +5,115 @@ from hutil.Qt import QtWidgets
 class findAndReplace(QtWidgets.QWidget):
     def __init__(self, parent=None):
     
-	# INITIALIZE GUI AND SET WINDOW TO ALWAYS ON TOP
-	QtWidgets.QWidget.__init__(self, parent, QtCore.Qt.WindowStaysOnTopHint)
+        # INITIALIZE GUI AND SET WINDOW TO ALWAYS ON TOP
+        QtWidgets.QWidget.__init__(self, parent, QtCore.Qt.WindowStaysOnTopHint)
 
-	# SET LAYOUTS
-	vbox = QtWidgets.QVBoxLayout()
-	hbox1 = QtWidgets.QHBoxLayout()
-	hbox2 = QtWidgets.QHBoxLayout()
-	hbox3 = QtWidgets.QHBoxLayout()
-	hbox4 = QtWidgets.QHBoxLayout()
-	hbox_checkboxes1 = QtWidgets.QHBoxLayout()
-	hbox_checkboxes2 = QtWidgets.QHBoxLayout()        
-	hbox_checkboxes3 = QtWidgets.QHBoxLayout()  
-	hbox_checkboxes4 = QtWidgets.QHBoxLayout()          
-	hbox_apply_to = QtWidgets.QHBoxLayout()
-	hbox_buttons1 = QtWidgets.QHBoxLayout()
-	hbox_buttons2 = QtWidgets.QHBoxLayout()
-	
-	# SET WINDOW ATTRIBUTES
-	self.setGeometry(500, 300, 400, 110)
-	self.setWindowTitle('Find & Replace')
-	
-	# CREATE WIDGETS
-	self.search_for_label = QtWidgets.QLabel("Search For:  ")
-	self.search_for_line_edit = QtWidgets.QLineEdit()
-	self.replace_with_label = QtWidgets.QLabel("Replace With:")
-	self.replace_with_line_edit = QtWidgets.QLineEdit()
-	self.search_in_node_names_checkbox = QtWidgets.QCheckBox("Search In Node Names")
-	self.search_in_parameters_checkbox = QtWidgets.QCheckBox("Search In Parameters")
-	self.include_string_parms_checkbox = QtWidgets.QCheckBox("Include String Parms")
-	self.include_float_parms_checkbox = QtWidgets.QCheckBox("Include Float Parms")
-	self.include_expressions_checkbox = QtWidgets.QCheckBox("Include Expressions")
-	self.select_in_viewport_checkbox = QtWidgets.QCheckBox("Select In Viewport")
-	self.print_results_checkbox = QtWidgets.QCheckBox("Print Results")        
-	self.case_sensitive_checkbox = QtWidgets.QCheckBox("Case Sensitive")
-	self.apply_to_label = QtWidgets.QLabel("Apply To:")
-	self.apply_to_combo_box = QtWidgets.QComboBox(self)
-	self.find_button = QtWidgets.QPushButton('Find', self)
-	self.replace_button = QtWidgets.QPushButton('Replace', self)
-	
-	# POPULATE COMBO BOX
-	self.apply_to_combo_box.addItem("Selected Nodes Only")
-	self.apply_to_combo_box.addItem("Selected Nodes & Their Direct Children")
-	self.apply_to_combo_box.addItem("Selected Nodes & All Subchildren")        
-	self.apply_to_combo_box.addItem("Only Direct Children Of Selected Nodes")   
-	self.apply_to_combo_box.addItem("Only All Subchildren Of Selected Nodes")           
-	self.apply_to_combo_box.addItem("All Nodes In Obj Context")   
-	self.apply_to_combo_box.addItem("All Nodes In Scene (Any Context)")           
-	
-	# SET INITIAL WIDGET BEHAVIORS
-	self.search_in_node_names_checkbox.setCheckState(QtCore.Qt.Checked)
-	self.search_in_parameters_checkbox.setCheckState(QtCore.Qt.Unchecked)
-	self.case_sensitive_checkbox.setCheckState(QtCore.Qt.Unchecked)        
-	self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)  
-	self.print_results_checkbox.setCheckState(QtCore.Qt.Unchecked)  
-	self.include_string_parms_checkbox.setCheckState(QtCore.Qt.Checked)    
-	self.include_float_parms_checkbox.setCheckState(QtCore.Qt.Checked)          
-	self.include_expressions_checkbox.setCheckState(QtCore.Qt.Checked)
-	self.include_string_parms_checkbox.setEnabled(False)
-	self.include_float_parms_checkbox.setEnabled(False)
-	self.include_expressions_checkbox.setEnabled(False)
+        # SET LAYOUTS
+        vbox = QtWidgets.QVBoxLayout()
+        hbox1 = QtWidgets.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
+        hbox3 = QtWidgets.QHBoxLayout()
+        hbox4 = QtWidgets.QHBoxLayout()
+        hbox_checkboxes1 = QtWidgets.QHBoxLayout()
+        hbox_checkboxes2 = QtWidgets.QHBoxLayout()        
+        hbox_checkboxes3 = QtWidgets.QHBoxLayout()  
+        hbox_checkboxes4 = QtWidgets.QHBoxLayout()          
+        hbox_apply_to = QtWidgets.QHBoxLayout()
+        hbox_buttons1 = QtWidgets.QHBoxLayout()
+        hbox_buttons2 = QtWidgets.QHBoxLayout()
+        
+        # SET WINDOW ATTRIBUTES
+        self.setGeometry(500, 300, 400, 110)
+        self.setWindowTitle('Find & Replace')
+        
+        # CREATE WIDGETS
+        self.search_for_label = QtWidgets.QLabel("Search For:  ")
+        self.search_for_line_edit = QtWidgets.QLineEdit()
+        self.replace_with_label = QtWidgets.QLabel("Replace With:")
+        self.replace_with_line_edit = QtWidgets.QLineEdit()
+        self.search_in_node_names_checkbox = QtWidgets.QCheckBox("Search In Node Names")
+        self.search_in_parameters_checkbox = QtWidgets.QCheckBox("Search In Parameters")
+        self.include_string_parms_checkbox = QtWidgets.QCheckBox("Include String Parms")
+        self.include_float_parms_checkbox = QtWidgets.QCheckBox("Include Float Parms")
+        self.include_expressions_checkbox = QtWidgets.QCheckBox("Include Expressions")
+        self.select_in_viewport_checkbox = QtWidgets.QCheckBox("Select In Viewport")
+        self.print_results_checkbox = QtWidgets.QCheckBox("Print Results")        
+        self.case_sensitive_checkbox = QtWidgets.QCheckBox("Case Sensitive")
+        self.apply_to_label = QtWidgets.QLabel("Apply To:")
+        self.apply_to_combo_box = QtWidgets.QComboBox(self)
+        self.find_button = QtWidgets.QPushButton('Find', self)
+        self.replace_button = QtWidgets.QPushButton('Replace', self)
+        
+        # POPULATE COMBO BOX
+        self.apply_to_combo_box.addItem("Selected Nodes Only")
+        self.apply_to_combo_box.addItem("Selected Nodes & Their Direct Children")
+        self.apply_to_combo_box.addItem("Selected Nodes & All Subchildren")        
+        self.apply_to_combo_box.addItem("Only Direct Children Of Selected Nodes")   
+        self.apply_to_combo_box.addItem("Only All Subchildren Of Selected Nodes")           
+        self.apply_to_combo_box.addItem("All Nodes In Obj Context")   
+        self.apply_to_combo_box.addItem("All Nodes In Scene (Any Context)")           
+        
+        # SET INITIAL WIDGET BEHAVIORS
+        self.search_in_node_names_checkbox.setCheckState(QtCore.Qt.Checked)
+        self.search_in_parameters_checkbox.setCheckState(QtCore.Qt.Unchecked)
+        self.case_sensitive_checkbox.setCheckState(QtCore.Qt.Unchecked)        
+        self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)  
+        self.print_results_checkbox.setCheckState(QtCore.Qt.Unchecked)  
+        self.include_string_parms_checkbox.setCheckState(QtCore.Qt.Checked)    
+        self.include_float_parms_checkbox.setCheckState(QtCore.Qt.Checked)          
+        self.include_expressions_checkbox.setCheckState(QtCore.Qt.Checked)
+        self.include_string_parms_checkbox.setEnabled(False)
+        self.include_float_parms_checkbox.setEnabled(False)
+        self.include_expressions_checkbox.setEnabled(False)
 
-	# WATCH WIDGETS FOR STATECHANGE
-	self.search_for_line_edit.textChanged.connect(self.lineEditChanged)
-	self.replace_with_line_edit.textChanged.connect(self.lineEditChanged)
-	self.search_in_parameters_checkbox.stateChanged.connect(self.searchInParametersCheckboxChanged)
-	self.search_in_node_names_checkbox.stateChanged.connect(self.searchInNodeNamesCheckboxChanged)
-	self.include_string_parms_checkbox.stateChanged.connect(self.includeCheckboxChanged)
-	self.include_float_parms_checkbox.stateChanged.connect(self.includeCheckboxChanged)
-	self.include_expressions_checkbox.stateChanged.connect(self.includeCheckboxChanged)  
-	self.print_results_checkbox.stateChanged.connect(self.printResultsUnchecked)          
-	self.select_in_viewport_checkbox.stateChanged.connect(self.selectInViewportUnchecked)        
-	self.apply_to_combo_box.currentIndexChanged.connect(self.comboBoxIndexChanged)
-	
-	# CONNECT BUTTONS TO FUNCTIONS
-	self.find_button.clicked.connect(self.locate)
-	self.replace_button.clicked.connect(self.locateAndReplace)
+        # WATCH WIDGETS FOR STATECHANGE
+        self.search_for_line_edit.textChanged.connect(self.lineEditChanged)
+        self.replace_with_line_edit.textChanged.connect(self.lineEditChanged)
+        self.search_in_parameters_checkbox.stateChanged.connect(self.searchInParametersCheckboxChanged)
+        self.search_in_node_names_checkbox.stateChanged.connect(self.searchInNodeNamesCheckboxChanged)
+        self.include_string_parms_checkbox.stateChanged.connect(self.includeCheckboxChanged)
+        self.include_float_parms_checkbox.stateChanged.connect(self.includeCheckboxChanged)
+        self.include_expressions_checkbox.stateChanged.connect(self.includeCheckboxChanged)  
+        self.print_results_checkbox.stateChanged.connect(self.printResultsUnchecked)          
+        self.select_in_viewport_checkbox.stateChanged.connect(self.selectInViewportUnchecked)        
+        self.apply_to_combo_box.currentIndexChanged.connect(self.comboBoxIndexChanged)
+        
+        # CONNECT BUTTONS TO FUNCTIONS
+        self.find_button.clicked.connect(self.locate)
+        self.replace_button.clicked.connect(self.locateAndReplace)
 
-	# ADD WIDGETS TO LAYOUT
-	hbox1.addWidget(self.search_for_label)
-	hbox1.addWidget(self.search_for_line_edit)
-	hbox2.addWidget(self.replace_with_label)
-	hbox2.addWidget(self.replace_with_line_edit)
-	vbox.addLayout(hbox1)
-	vbox.addLayout(hbox2)
-	vbox.addLayout(hbox3)
-	vbox.addLayout(hbox4)
-	hbox_checkboxes1.addWidget(self.search_in_node_names_checkbox)
-	hbox_checkboxes1.addWidget(self.search_in_parameters_checkbox)   
-	
-	hbox_checkboxes2.addWidget(self.case_sensitive_checkbox)           
-	hbox_checkboxes2.addWidget(self.include_string_parms_checkbox)
-	hbox_checkboxes3.addWidget(self.select_in_viewport_checkbox)     
-	hbox_checkboxes3.addWidget(self.include_float_parms_checkbox)
-	hbox_checkboxes4.addWidget(self.print_results_checkbox)    
-	hbox_checkboxes4.addWidget(self.include_expressions_checkbox)            
-	vbox.addLayout(hbox_checkboxes1)
-	vbox.addLayout(hbox_checkboxes2) 
-	vbox.addLayout(hbox_checkboxes3)
-	vbox.addLayout(hbox_checkboxes4)        
-	hbox_apply_to.addWidget(self.apply_to_label)        
-	hbox_apply_to.addWidget(self.apply_to_combo_box)
-	vbox.addLayout(hbox_apply_to)
-	hbox_buttons1.addWidget(self.find_button)
-	hbox_buttons1.addWidget(self.replace_button)
-	vbox.addLayout(hbox_buttons1)           
+        # ADD WIDGETS TO LAYOUT
+        hbox1.addWidget(self.search_for_label)
+        hbox1.addWidget(self.search_for_line_edit)
+        hbox2.addWidget(self.replace_with_label)
+        hbox2.addWidget(self.replace_with_line_edit)
+        vbox.addLayout(hbox1)
+        vbox.addLayout(hbox2)
+        vbox.addLayout(hbox3)
+        vbox.addLayout(hbox4)
+        hbox_checkboxes1.addWidget(self.search_in_node_names_checkbox)
+        hbox_checkboxes1.addWidget(self.search_in_parameters_checkbox)   
+        
+        hbox_checkboxes2.addWidget(self.case_sensitive_checkbox)           
+        hbox_checkboxes2.addWidget(self.include_string_parms_checkbox)
+        hbox_checkboxes3.addWidget(self.select_in_viewport_checkbox)     
+        hbox_checkboxes3.addWidget(self.include_float_parms_checkbox)
+        hbox_checkboxes4.addWidget(self.print_results_checkbox)    
+        hbox_checkboxes4.addWidget(self.include_expressions_checkbox)            
+        vbox.addLayout(hbox_checkboxes1)
+        vbox.addLayout(hbox_checkboxes2) 
+        vbox.addLayout(hbox_checkboxes3)
+        vbox.addLayout(hbox_checkboxes4)        
+        hbox_apply_to.addWidget(self.apply_to_label)        
+        hbox_apply_to.addWidget(self.apply_to_combo_box)
+        vbox.addLayout(hbox_apply_to)
+        hbox_buttons1.addWidget(self.find_button)
+        hbox_buttons1.addWidget(self.replace_button)
+        vbox.addLayout(hbox_buttons1)           
 
-	# SET LAYOUT
-	self.setLayout(vbox)
-	
+        # SET LAYOUT
+        self.setLayout(vbox)
+        
     ## FUNCTION TO RUN WHEN LINEEDITS ARE CHANGED
     def lineEditChanged(self):
         try:
@@ -160,35 +160,35 @@ class findAndReplace(QtWidgets.QWidget):
             self.include_string_parms_checkbox.setEnabled(1)
             self.include_expressions_checkbox.setEnabled(1)
             self.include_float_parms_checkbox.setEnabled(1)
-                if self.include_string_parms_checkbox.checkState() == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.checkState() == QtCore.Qt.Unchecked and self.include_expressions_checkbox.checkState() == QtCore.Qt.Unchecked:
+            if self.include_string_parms_checkbox.checkState() == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.checkState() == QtCore.Qt.Unchecked and self.include_expressions_checkbox.checkState() == QtCore.Qt.Unchecked:
                 self.find_button.setEnabled(0)
                 self.replace_button.setEnabled(0)                
-	    
+            
     def includeCheckboxChanged(self, state):
-	    include_string_parms = self.include_string_parms_checkbox.checkState()         
-	    include_float_parms = self.include_float_parms_checkbox.checkState()
-	    include_expressions = self.include_expressions_checkbox.checkState()
-	    if include_string_parms == QtCore.Qt.Unchecked and include_float_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked:
-            if self.find_button.isEnabled() == 1:
-                self.find_button.setEnabled(0)
-                self.replace_button.setEnabled(0)
-	    elif include_string_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.isEnabled() == 0:
-            if self.find_button.isEnabled() == 1:
-                self.find_button.setEnabled(0)
-                self.replace_button.setEnabled(0)            
-	    else:
-            if self.find_button.isEnabled() == 0:
-                self.find_button.setEnabled(1)
-                self.replace_button.setEnabled(1)    
-		    
+            include_string_parms = self.include_string_parms_checkbox.checkState()         
+            include_float_parms = self.include_float_parms_checkbox.checkState()
+            include_expressions = self.include_expressions_checkbox.checkState()
+            if include_string_parms == QtCore.Qt.Unchecked and include_float_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked:
+                if self.find_button.isEnabled() == 1:
+                    self.find_button.setEnabled(0)
+                    self.replace_button.setEnabled(0)
+            elif include_string_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.isEnabled() == 0:
+                if self.find_button.isEnabled() == 1:
+                    self.find_button.setEnabled(0)
+                    self.replace_button.setEnabled(0)            
+            else:
+                if self.find_button.isEnabled() == 0:
+                    self.find_button.setEnabled(1)
+                    self.replace_button.setEnabled(1)    
+                    
     def selectInViewportUnchecked(self, state):
-	    if state == QtCore.Qt.Unchecked:
-            self.print_results_checkbox.setCheckState(QtCore.Qt.Checked)
-		
+            if state == QtCore.Qt.Unchecked:
+                self.print_results_checkbox.setCheckState(QtCore.Qt.Checked)
+                
     def printResultsUnchecked(self, state):
-	    if state == QtCore.Qt.Unchecked:
-            self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)        
-		
+            if state == QtCore.Qt.Unchecked:
+                self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)        
+                
     ## FUNCTION TO RUN WHEN COMBO BOX IS CHANGED
     def comboBoxIndexChanged(self):
         index = self.apply_to_combo_box.currentIndex()
@@ -196,7 +196,7 @@ class findAndReplace(QtWidgets.QWidget):
             self.select_in_viewport_checkbox.setEnabled(0)
         else:
             self.select_in_viewport_checkbox.setEnabled(1)
-	    
+            
     ## FUNCTION THAT IS RUN WHEN "FIND" BUTTON IS PRESSED
     def locate(self):
         
@@ -269,7 +269,7 @@ class findAndReplace(QtWidgets.QWidget):
         else:
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
                 print "No nodes were found which met the search criteria.\n"
-				
+                                
     ## FUNCTION THAT IS RUN WHEN "REPLACE" BUTTON IS PRESSED                
     def locateAndReplace(self):
         
@@ -421,9 +421,9 @@ class findAndReplace(QtWidgets.QWidget):
             old_parm_path = p.path()
             x = 0
             for keyframe in p.keyframes():
-            new_keyframe = hou.Keyframe()
-            new_keyframe.setFrame( keyframe.frame() )
-            old_parm_val = p.keyframes()[x].expression()  
+                new_keyframe = hou.Keyframe()
+                new_keyframe.setFrame( keyframe.frame() )
+                old_parm_val = p.keyframes()[x].expression()  
 
             # IF CASE SENSITIVE
             if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Checked:           
@@ -500,13 +500,13 @@ class findAndReplace(QtWidgets.QWidget):
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
                         print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, new_parm_val )
                 x += 1                    
-		    
+                    
     ## CREATES LOWERCASE VERSION OF INPUT IF 'CASE SENSITIVE' IS DESELECTED    
     def checkCaseSensitive(self, input):
         if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Unchecked:
             input = input.lower()
         return input
-	
+        
     ## MODIFIES THE SELECTED NODE LIST BASED ON "APPLY TO:" COMBO BOX
     def setSearchMode(self, current_selection):
         search_mode = self.apply_to_combo_box.currentIndex() 
@@ -563,4 +563,3 @@ class findAndReplace(QtWidgets.QWidget):
 ## RUN DIALOG                  
 dialog = findAndReplace()
 dialog.show()
-
