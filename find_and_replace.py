@@ -537,7 +537,7 @@ class findAndReplace(QtWidgets.QWidget):
             sel = current_selection
 
         # SELECTED NODES AND DIRECT CHILDREN
-        if search_mode == 1:
+        elif search_mode == 1:
             sel = []
             for node in current_selection:
                 if node.children():
@@ -545,35 +545,35 @@ class findAndReplace(QtWidgets.QWidget):
             sel.extend(current_selection)
 
         # SELECTED NODES & ALL SUBCHILDREN
-        if search_mode == 2:
+        elif search_mode == 2:
             sel = current_selection
             for node in current_selection:
                 if node.children():
                     sel.extend(list(node.allSubChildren()))
 
         # ONLY DIRECT CHILDREN OF SELECTED NODES
-        if search_mode == 3:
+        elif search_mode == 3:
             sel = []
             for node in current_selection:
                 if node.children():
                     sel.extend(list(node.children()))
 
         # ONLY ALL SUBCHILDREN OF SELECTED NODES
-        if search_mode == 4:
+        elif search_mode == 4:
             sel = []
             for node in current_selection:
                 if node.children():
                     sel.extend(node.allSubChildren())   
 
         # ALL NODES IN OBJ CONTEXT
-        if search_mode == 5:
+        elif search_mode == 5:
             sel = []
             for node in hou.node('/obj').allSubChildren():
                 if "/obj/ipr_camera" not in node.path():
                     sel.append(node)
 
         # ALL NODES IN SCENE (ANY CONTEXT)
-        if search_mode == 6:
+        elif search_mode == 6:
             sel = []
             for node in hou.node('/').allSubChildren():
                 if "/obj/ipr_camera" not in node.path():
