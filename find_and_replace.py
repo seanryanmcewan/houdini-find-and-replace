@@ -368,7 +368,7 @@ class findAndReplace(QtWidgets.QWidget):
                     print 'Updating node name from "%s" to "%s"' % (old_node_path, node.path()) 
 
         # IF WE'RE MODIFYING A STRING PARM
-        if replace_mode == 1:
+        elif replace_mode == 1:
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
@@ -407,7 +407,7 @@ class findAndReplace(QtWidgets.QWidget):
                         print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval())                      
                 
         # IF WE'RE MODIFYING A FLOAT PARM, SIMPLY REPLACE SEARCH VALUE WITH REPLACE VALUE
-        if replace_mode == 2:
+        elif replace_mode == 2:
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
@@ -416,7 +416,7 @@ class findAndReplace(QtWidgets.QWidget):
                 print 'Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval())               
 
         # IF WE'RE MODIFYING AN EXPRESSION
-        if replace_mode == 3:
+        elif replace_mode == 3:
             p = input
             old_parm_path = p.path()
             x = 0
@@ -459,7 +459,7 @@ class findAndReplace(QtWidgets.QWidget):
                 x += 1
 
         # IF WE'RE MODIFYING AN EXPRESSION WITH `CHS` (ISN'T TREATED AS EXPRESSION BY PYTHON)
-        if replace_mode == 4:
+        elif replace_mode == 4:
             p = input
             old_parm_path = p.path()
             x = 0
