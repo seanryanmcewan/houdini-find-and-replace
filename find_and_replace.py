@@ -3,6 +3,13 @@ from hutil.Qt import QtCore
 from hutil.Qt import QtWidgets
 
 class findAndReplace(QtWidgets.QWidget):
+    """
+    A GUI tool to find and replace text, expressions, or floats in node names or parameter values.
+    
+    Depending on the selection, will either print a list of found nodes/parameters, select found nodes in the viewport, 
+    or update node names or parameter values.
+    """
+    
     def __init__(self, parent=None):
     
         # INITIALIZE GUI AND SET WINDOW TO ALWAYS ON TOP
@@ -114,8 +121,12 @@ class findAndReplace(QtWidgets.QWidget):
         # SET LAYOUT
         self.setLayout(vbox)
         
-    ## FUNCTION TO RUN WHEN LINEEDITS ARE CHANGED
+    ## LINEEDITS ARE CHANGED
     def lineEditChanged(self):
+        """
+        Update GUI depending on what type of text was input into the lineedit.
+        """
+        
         try:
             if self.search_for_line_edit.text():
                 int(self.search_for_line_edit.text())
@@ -134,8 +145,13 @@ class findAndReplace(QtWidgets.QWidget):
                     self.replace_button.setEnabled(0)
 
 
-    ## FUNCTIONS TO RUN WHEN CHECKBOX STATES ARE CHANGED        
+    ## CHECKBOX STATES ARE CHANGED        
     def searchInParametersCheckboxChanged(self, state):
+        """
+        When the "Search in Parameters" checkbox is checked, disables node search widgets.
+        When the "Search in Parameters" checkbox is unchecked, enables node search widgets.
+        """
+        
         if state == QtCore.Qt.Checked:
             self.search_in_node_names_checkbox.setCheckState(QtCore.Qt.Unchecked)     
             self.include_string_parms_checkbox.setEnabled(1)
@@ -148,6 +164,11 @@ class findAndReplace(QtWidgets.QWidget):
             self.include_float_parms_checkbox.setEnabled(0)
 
     def searchInNodeNamesCheckboxChanged(self, state):
+        """
+        When the "Search in Node Names" checkbox is checked, disables parameter search widgets.
+        When the "Search in Node Names" checkbox is unchecked, enables parameter search widgets.
+        """  
+        
         if state == QtCore.Qt.Checked:
             self.search_in_parameters_checkbox.setCheckState(QtCore.Qt.Unchecked)   
             self.include_string_parms_checkbox.setEnabled(0)
@@ -165,40 +186,58 @@ class findAndReplace(QtWidgets.QWidget):
                 self.replace_button.setEnabled(0)                
             
     def includeCheckboxChanged(self, state):
-            include_string_parms = self.include_string_parms_checkbox.checkState()         
-            include_float_parms = self.include_float_parms_checkbox.checkState()
-            include_expressions = self.include_expressions_checkbox.checkState()
-            if include_string_parms == QtCore.Qt.Unchecked and include_float_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked:
-                if self.find_button.isEnabled() == 1:
-                    self.find_button.setEnabled(0)
-                    self.replace_button.setEnabled(0)
-            elif include_string_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.isEnabled() == 0:
-                if self.find_button.isEnabled() == 1:
-                    self.find_button.setEnabled(0)
-                    self.replace_button.setEnabled(0)            
-            else:
-                if self.find_button.isEnabled() == 0:
-                    self.find_button.setEnabled(1)
-                    self.replace_button.setEnabled(1)    
+        """
+        Updates the GUI depending on which "Include" options are enabled.
+        """
+        
+        include_string_parms = self.include_string_parms_checkbox.checkState()         
+        include_float_parms = self.include_float_parms_checkbox.checkState()
+        include_expressions = self.include_expressions_checkbox.checkState()
+        
+        if include_string_parms == QtCore.Qt.Unchecked and include_float_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked:
+            if self.find_button.isEnabled() == 1:
+                self.find_button.setEnabled(0)
+                self.replace_button.setEnabled(0)
+        elif include_string_parms == QtCore.Qt.Unchecked and include_expressions == QtCore.Qt.Unchecked and self.include_float_parms_checkbox.isEnabled() == 0:
+            if self.find_button.isEnabled() == 1:
+                self.find_button.setEnabled(0)
+                self.replace_button.setEnabled(0)            
+        else:
+            if self.find_button.isEnabled() == 0:
+                self.find_button.setEnabled(1)
+                self.replace_button.setEnabled(1)    
                     
     def selectInViewportUnchecked(self, state):
-            if state == QtCore.Qt.Unchecked:
-                self.print_results_checkbox.setCheckState(QtCore.Qt.Checked)
+        """
+        When the "Select in Viewport" checkbox is unchecked, forces the "Print Results" checkbox to be checked.
+        """
+        
+        if state == QtCore.Qt.Unchecked:
+            self.print_results_checkbox.setCheckState(QtCore.Qt.Checked)
                 
     def printResultsUnchecked(self, state):
-            if state == QtCore.Qt.Unchecked:
-                self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)        
+        """
+        When the "Print Results" checkbox is unchecked, forces the "Select in Viewport" checkbox to be checked.
+        """
+        
+        if state == QtCore.Qt.Unchecked:
+            self.select_in_viewport_checkbox.setCheckState(QtCore.Qt.Checked)        
                 
-    ## FUNCTION TO RUN WHEN COMBO BOX IS CHANGED
     def comboBoxIndexChanged(self):
+        """
+        Disable the "Select in Viewport" option if "Apply To" is set to anything other than "Selected Nodes Only"
+        """
+        
         index = self.apply_to_combo_box.currentIndex()
         if index != 0:
             self.select_in_viewport_checkbox.setEnabled(0)
         else:
             self.select_in_viewport_checkbox.setEnabled(1)
             
-    ## FUNCTION THAT IS RUN WHEN "FIND" BUTTON IS PRESSED
     def locate(self):
+        """
+        Run when "Find" button pressed. Will either print matches, or select in the viewport, depending on user preference.
+        """
         
         # INITIALIZE VARIABLES
         search_string = self.search_for_line_edit.text()    
@@ -269,9 +308,12 @@ class findAndReplace(QtWidgets.QWidget):
         else:
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
                 print("No nodes were found which met the search criteria.\n")
-                                
-    ## FUNCTION THAT IS RUN WHEN "REPLACE" BUTTON IS PRESSED                
+                                              
     def locateAndReplace(self):
+        """
+        Run when "Replace" button is pressed. Checks what type of replacement should be done, 
+        then iterates over the specified nodes and replaces any matches. 
+        """
         
         # INITIALIZE VARIABLES        
         to_replace = self.search_for_line_edit.text()
@@ -332,8 +374,10 @@ class findAndReplace(QtWidgets.QWidget):
         if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
             print("\n")
     
-    # FUNCTION TO REPLACE WITH CASE SENSITIVITY TAKEN INTO ACCOUNT
     def replaceFunction(self, replace_mode, to_replace, replace_with, input): 
+        """
+        Sends to the proper method depending on what type of parameter is being replaced.
+        """
         
         # IF WE'RE MODIFYING A NODE NAME
         if replace_mode == 0:
@@ -354,10 +398,12 @@ class findAndReplace(QtWidgets.QWidget):
         # IF WE'RE MODIFYING AN EXPRESSION WITH `CHS` (ISN'T TREATED AS EXPRESSION BY PYTHON)
         elif replace_mode == 4:
             self.modifyChs(to_replace, replace_with, input)
-                    
-                
-    ## MODIFY NODE NAME                 
+                               
     def modifyNodeName(self, to_replace, replace_with, input):
+        """
+        Modify node name.
+        """
+        
         node = input
         old_node_path = node.path()
 
@@ -388,8 +434,11 @@ class findAndReplace(QtWidgets.QWidget):
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
                 print('Updating node name from "{0}" to "{1}"'.format(old_node_path, node.path()))
                     
-    ## MODIFY STRING PARAMETER
     def modifyStringParm(self, to_replace, replace_with, input):
+            """
+            Modify string parameter.
+            """
+            
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
@@ -427,8 +476,10 @@ class findAndReplace(QtWidgets.QWidget):
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
                         print('Updating "{0}" from "{1}" to "{2}"'.format(old_parm_path, old_parm_val, p.eval()))
     
-    ## MODIFY FLOAT PARM
     def modifyFloatParm(self, to_replace, replace_with, input):
+            """
+            Modify float parameter.
+            """
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
@@ -436,8 +487,12 @@ class findAndReplace(QtWidgets.QWidget):
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
                 print('Updating {0} from "{1}" to "{2}"' % (old_parm_path, old_parm_val, p.eval()))
                 
-    ## MODIFY EXPRESSION
+
     def modifyExpression(self, to_replace, replace_with, input):
+            """
+            Modify expression parameter.
+            """
+        
             p = input
             old_parm_path = p.path()
             x = 0
@@ -479,8 +534,11 @@ class findAndReplace(QtWidgets.QWidget):
                         print('Updating "{0}" from "{1}" to "{2}"'.format(old_parm_path, old_parm_val, p.keyframes()[x].expression() ))
                 x += 1                         
                 
-    ## MODIFY EXPRESSION WITH 'chs('
     def modifyChs(self, to_replace, replace_with, input):
+            """
+            Modify expression containing 'chs', as Houdini does not treat these like normal expressions.
+            """
+            
             p = input
             old_parm_path = p.path()
             x = 0
@@ -522,14 +580,20 @@ class findAndReplace(QtWidgets.QWidget):
                         print('Updating "{0}" from "{1}" to "{2}"' % (old_parm_path, old_parm_val, new_parm_val ))
                 x += 1                                
                     
-    ## CREATES LOWERCASE VERSION OF INPUT IF 'CASE SENSITIVE' IS DESELECTED    
     def checkCaseSensitive(self, input):
+        """
+        If the 'case sensitive' checkbox is not checked, creates lowercase version of the input text.
+        """
+        
         if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Unchecked:
             input = input.lower()
         return input
         
-    ## MODIFIES THE SELECTED NODE LIST BASED ON "APPLY TO:" COMBO BOX
     def setSearchMode(self, current_selection):
+        """
+        Modifies the selected node list based on the selection of the "Apply To" combo box.
+        """
+        
         search_mode = self.apply_to_combo_box.currentIndex() 
 
         # SELECTED NODES ONLY
