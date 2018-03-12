@@ -254,21 +254,21 @@ class findAndReplace(QtWidgets.QWidget):
         if found_node_list:
             
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-                print "The following nodes met the search criteria:"
+                print("The following nodes met the search criteria:")
                 
             for node in found_node_list:    
                 if self.select_in_viewport_checkbox.checkState() == QtCore.Qt.Checked and self.select_in_viewport_checkbox.isEnabled():
                     node.setSelected(1)
                     
                 if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-                    print node.path()  
+                    print(node.path())
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-                print "\n"
+                print("\n")
                 
         # IF NO MATCHES WERE FOUND, PRINT INFO
         else:
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-                print "No nodes were found which met the search criteria.\n"
+                print("No nodes were found which met the search criteria.\n")
                                 
     ## FUNCTION THAT IS RUN WHEN "REPLACE" BUTTON IS PRESSED                
     def locateAndReplace(self):
@@ -330,45 +330,66 @@ class findAndReplace(QtWidgets.QWidget):
                                 pass
 
         if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-            print "\n"
+            print("\n")
     
     # FUNCTION TO REPLACE WITH CASE SENSITIVITY TAKEN INTO ACCOUNT
     def replaceFunction(self, replace_mode, to_replace, replace_with, input): 
         
         # IF WE'RE MODIFYING A NODE NAME
         if replace_mode == 0:
-            node = input
-            old_node_path = node.path()
-            
-            # IF CASE SENSITIVE
-            if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Checked:
-                node.setName(node.name().replace(to_replace, replace_with),1)
-                if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
-                    print 'Updating node name from "%s" to "%s"' % (old_node_path, node.path())
-                    
-            # IF NOT CASE SENSITIVE
-            else:
-                compare_string = node.name()
-                index_list = []
-                index = 0
-                
-                # SEARCH FOR MATCH, FINDING INDEX TO REPLACE                
-                if to_replace.lower() in compare_string.lower():
-                    for ch in compare_string.lower():
-                        if ch == to_replace[0].lower():
-                            if compare_string.lower()[index:index+len(to_replace)] == to_replace.lower():
-                                index_list.append(index)
-                    index += 1
-                    
-                # REPLACE STRING BY INDEX                    
-                for index in index_list:
-                    node.setName(compare_string.replace(compare_string[index:index+len(to_replace)], replace_with))
-                    
-                if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                    print 'Updating node name from "%s" to "%s"' % (old_node_path, node.path()) 
+            self.modifyNodeName(to_replace, replace_with, input)
 
         # IF WE'RE MODIFYING A STRING PARM
         elif replace_mode == 1:
+            self.modifyStringParm(to_replace, replace_with, input)
+                
+        # IF WE'RE MODIFYING A FLOAT PARM, SIMPLY REPLACE SEARCH VALUE WITH REPLACE VALUE
+        elif replace_mode == 2:
+            self.modifyFloatParm(to_replace, replace_with, input)
+
+        # IF WE'RE MODIFYING AN EXPRESSION
+        elif replace_mode == 3:
+            self.modifyExpression(to_replace, replace_with, input)
+
+        # IF WE'RE MODIFYING AN EXPRESSION WITH `CHS` (ISN'T TREATED AS EXPRESSION BY PYTHON)
+        elif replace_mode == 4:
+            self.modifyChs(to_replace, replace_with, input)
+                    
+                
+    ## MODIFY NODE NAME                 
+    def modifyNodeName(self, to_replace, replace_with, input):
+        node = input
+        old_node_path = node.path()
+
+        # IF CASE SENSITIVE
+        if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Checked:
+            node.setName(node.name().replace(to_replace, replace_with),1)
+            if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:
+                print('Updating node name from "%s" to "%s"' % (old_node_path, node.path()))
+
+        # IF NOT CASE SENSITIVE
+        else:
+            compare_string = node.name()
+            index_list = []
+            index = 0
+
+            # SEARCH FOR MATCH, FINDING INDEX TO REPLACE                
+            if to_replace.lower() in compare_string.lower():
+                for ch in compare_string.lower():
+                    if ch == to_replace[0].lower():
+                        if compare_string.lower()[index:index+len(to_replace)] == to_replace.lower():
+                            index_list.append(index)
+                index += 1
+
+            # REPLACE STRING BY INDEX                    
+            for index in index_list:
+                node.setName(compare_string.replace(compare_string[index:index+len(to_replace)], replace_with))
+
+            if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
+                print('Updating node name from "%s" to "%s"' % (old_node_path, node.path()))
+                    
+    ## MODIFY STRING PARAMETER
+    def modifyStringParm(self, to_replace, replace_with, input):
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
@@ -377,7 +398,7 @@ class findAndReplace(QtWidgets.QWidget):
             if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Checked:
                 p.set(p.eval().replace(to_replace,replace_with))
                 if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                    print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval())   
+                    print('Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval()))
                     
             # IF NOT CASE SENSITIVE
             else:
@@ -404,19 +425,19 @@ class findAndReplace(QtWidgets.QWidget):
                     compare_string = compare_string.replace(new_replace, replace_with)
                     p.set(compare_string)
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                        print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval())                      
-                
-        # IF WE'RE MODIFYING A FLOAT PARM, SIMPLY REPLACE SEARCH VALUE WITH REPLACE VALUE
-        elif replace_mode == 2:
+                        print('Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval()))
+    
+    ## MODIFY FLOAT PARM
+    def modifyFloatParm(self, to_replace, replace_with, input):
             p = input
             old_parm_path = p.path()
             old_parm_val = p.eval()
             p.set(float(str(p.eval()).replace(str(float(to_replace)),replace_with)))
             if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                print 'Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval())               
-
-        # IF WE'RE MODIFYING AN EXPRESSION
-        elif replace_mode == 3:
+                print('Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, p.eval()))
+                
+    ## MODIFY EXPRESSION
+    def modifyExpression(self, to_replace, replace_with, input):
             p = input
             old_parm_path = p.path()
             x = 0
@@ -430,7 +451,7 @@ class findAndReplace(QtWidgets.QWidget):
                 new_keyframe.setExpression( p.keyframes()[x].expression().replace(to_replace,replace_with) )
                 p.setKeyframe(new_keyframe)
                 if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                    print 'Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, p.keyframes()[x].expression() )       
+                    print('Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, p.keyframes()[x].expression() ))
                 
             # IF NOT CASE SENSITIVE
             else:
@@ -455,11 +476,11 @@ class findAndReplace(QtWidgets.QWidget):
                     new_keyframe.setExpression( compare_string.replace(new_replace, replace_with) )
                     p.setKeyframe(new_keyframe)
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                        print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.keyframes()[x].expression() )
-                x += 1
-
-        # IF WE'RE MODIFYING AN EXPRESSION WITH `CHS` (ISN'T TREATED AS EXPRESSION BY PYTHON)
-        elif replace_mode == 4:
+                        print('Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, p.keyframes()[x].expression() ))
+                x += 1                         
+                
+    ## MODIFY EXPRESSION WITH 'chs('
+    def modifyChs(self, to_replace, replace_with, input):
             p = input
             old_parm_path = p.path()
             x = 0
@@ -473,7 +494,7 @@ class findAndReplace(QtWidgets.QWidget):
                 new_parm_val = old_parm_val.replace(to_replace,replace_with)
                 p.set(new_parm_val)
                 if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                    print 'Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, new_parm_val )   
+                    print('Updating %s from "%s" to "%s"' % (old_parm_path, old_parm_val, new_parm_val ))
                     
             # IF NOT CASE SENSITIVE
             else:
@@ -498,8 +519,8 @@ class findAndReplace(QtWidgets.QWidget):
                     new_parm_val = compare_string.replace(new_replace, replace_with)
                     p.set( new_parm_val )
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                        print 'Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, new_parm_val )
-                x += 1                    
+                        print('Updating "%s" from "%s" to "%s"' % (old_parm_path, old_parm_val, new_parm_val ))
+                x += 1                                
                     
     ## CREATES LOWERCASE VERSION OF INPUT IF 'CASE SENSITIVE' IS DESELECTED    
     def checkCaseSensitive(self, input):
