@@ -152,7 +152,7 @@ class findAndReplace(QtWidgets.QWidget):
         When the "Search in Parameters" checkbox is unchecked, enables node search widgets.
         
         Arguments:
-        state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
+            state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
         """
         
         if state == QtCore.Qt.Checked:
@@ -172,7 +172,7 @@ class findAndReplace(QtWidgets.QWidget):
         When the "Search in Node Names" checkbox is unchecked, enables parameter search widgets.
         
         Arguments:
-        state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.        
+            state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.        
         """  
         
         if state == QtCore.Qt.Checked:
@@ -196,7 +196,7 @@ class findAndReplace(QtWidgets.QWidget):
         Updates the GUI depending on which "Include" options are enabled.
         
         Arguments:
-        state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.        
+            state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.        
         """
         
         include_string_parms = self.include_string_parms_checkbox.checkState()         
@@ -221,7 +221,7 @@ class findAndReplace(QtWidgets.QWidget):
         When the "Select in Viewport" checkbox is unchecked, forces the "Print Results" checkbox to be checked.
         
         Arguments:
-        state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
+            state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
         """
         
         if state == QtCore.Qt.Unchecked:
@@ -232,7 +232,7 @@ class findAndReplace(QtWidgets.QWidget):
         When the "Print Results" checkbox is unchecked, forces the "Select in Viewport" checkbox to be checked.
         
         Arguments:
-        state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
+            state (QtCore.Qt.CheckState): The checkstate of the checkbox which has been changed.
         """
         
         if state == QtCore.Qt.Unchecked:
@@ -394,12 +394,15 @@ class findAndReplace(QtWidgets.QWidget):
         Sends to the proper method depending on what type of parameter is being replaced.
         
         Arguments:
-        replace_mode (int): An integer specifying which replace mode to use. Options are:
-                            0: Node Name
-                            1: String Parm
-                            2: Float Parm
-                            3: Expression
-                            4: 'chs()' Expression
+            replace_mode (int): An integer specifying which replace mode to use. Options are:
+                                0: Node Name
+                                1: String Parm
+                                2: Float Parm
+                                3: Expression
+                                4: 'chs()' Expression
+            to_replace (string): Text to be replaced
+            replace_with (string): Text to replace with   
+            input (hou.Node or hou.Parm): The node to rename or paramater to update
         """
         
         # IF WE'RE MODIFYING A NODE NAME
@@ -427,8 +430,9 @@ class findAndReplace(QtWidgets.QWidget):
         Modify node name.
         
         Arguments:
-        to_replace (string): Text to be replaced
-        replace_with (string): Text to replace with
+            to_replace (string): Text to be replaced
+            replace_with (string): Text to replace with
+            input (hou.Node): The node to rename
         """
         
         node = input
@@ -466,8 +470,10 @@ class findAndReplace(QtWidgets.QWidget):
             Modify string parameter.
             
             Arguments:
-            to_replace (string): Text to be replaced
-            replace_with (string): Text to replace with            
+                to_replace (string): Text to be replaced
+                replace_with (string): Text to replace with            
+                input (hou.Parm): The paramater to update
+
             """
             
             p = input
@@ -512,8 +518,10 @@ class findAndReplace(QtWidgets.QWidget):
             Modify float parameter.
             
             Arguments:
-            to_replace (string): Text to be replaced
-            replace_with (string): Text to replace with               
+                to_replace (string): Text to be replaced
+                replace_with (string): Text to replace with               
+                input (hou.Parm): The paramater to update
+
             """
             p = input
             old_parm_path = p.path()
@@ -528,8 +536,9 @@ class findAndReplace(QtWidgets.QWidget):
             Modify expression parameter.
             
             Arguments:
-            to_replace (string): Text to be replaced
-            replace_with (string): Text to replace with               
+                to_replace (string): Text to be replaced
+                replace_with (string): Text to replace with      
+                input (hou.Parm): The paramater to update                
             """
         
             p = input
@@ -578,8 +587,9 @@ class findAndReplace(QtWidgets.QWidget):
             Modify expression containing 'chs', as Houdini does not treat these like normal expressions.
             
             Arguments:
-            to_replace (string): Text to be replaced
-            replace_with (string): Text to replace with               
+                to_replace (string): Text to be replaced
+                replace_with (string): Text to replace with       
+                input (hou.Parm): The paramater to update                
             """
             
             p = input
@@ -628,7 +638,7 @@ class findAndReplace(QtWidgets.QWidget):
         If the 'case sensitive' checkbox is not checked, creates lowercase version of the input text.
         
         Arguments:
-        input (string): Text to convert to lowercase if 'case sensitive' checkbox is not checked.
+            input (string): Text to convert to lowercase if 'case sensitive' checkbox is not checked.
         """
         
         if self.case_sensitive_checkbox.checkState() == QtCore.Qt.Unchecked:
@@ -640,7 +650,7 @@ class findAndReplace(QtWidgets.QWidget):
         Modifies the selected node list based on the selection of the "Apply To" combo box.
         
         Arguments:
-        current_selection (list): List of hou.Node
+            current_selection (list): List of hou.Node
         """
         
         search_mode = self.apply_to_combo_box.currentIndex() 
