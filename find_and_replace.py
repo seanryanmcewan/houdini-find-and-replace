@@ -134,13 +134,13 @@ class findAndReplace(QtWidgets.QWidget):
                 int(self.replace_with_line_edit.text())
             if self.search_in_parameters_checkbox.isChecked():
                 self.include_float_parms_checkbox.setEnabled(1)
-            if self.find_button.isEnabled() == 0:
+            if not self.find_button.isEnabled():
                 self.find_button.setEnabled(1)
                 self.replace_button.setEnabled(1)
         except:
             self.include_float_parms_checkbox.setEnabled(0)
-            if self.include_string_parms_checkbox.isChecked() == 0 and self.include_expressions_checkbox.isChecked() == 0:
-                if self.find_button.isEnabled() == 1:
+            if (not self.include_string_parms_checkbox.isChecked() ) and (not self.include_expressions_checkbox.isChecked() ):
+                if self.find_button.isEnabled():
                     self.find_button.setEnabled(0)
                     self.replace_button.setEnabled(0)
 
