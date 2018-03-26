@@ -630,7 +630,7 @@ class findAndReplace(QtWidgets.QWidget):
                     new_parm_val = compare_string.replace(new_replace, replace_with)
                     p.set( new_parm_val )
                     if self.print_results_checkbox.checkState() == QtCore.Qt.Checked:            
-                        print('Updating "{0}" from "{1}" to "{2}"' % (old_parm_path, old_parm_val, new_parm_val ))
+                        print('Updating "{0}" from "{1}" to "{2}"'.format(old_parm_path, old_parm_val, new_parm_val ))
                 x += 1                                
                     
     def checkCaseSensitive(self, input):
